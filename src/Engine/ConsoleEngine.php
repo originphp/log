@@ -31,10 +31,10 @@ class ConsoleEngine extends BaseEngine
      * @var array
      */
     protected $defaultConfig = [
-    'stream' => 'php://stderr',
-    'levels' => [],
-    'channels' => [],
-  ];
+        'stream' => 'php://stderr',
+        'levels' => [],
+        'channels' => [],
+    ];
 
     public function initialize(array $config): void
     {
@@ -52,7 +52,6 @@ class ConsoleEngine extends BaseEngine
     public function log(string $level, string $message, array $context = []): void
     {
         $message = $this->format($level, $message, $context);
-        $message = "<{$level}>{$message}</{$level}>";
         $this->write($message);
     }
     /**
