@@ -65,13 +65,15 @@ Log::info('Email sent to {email}',['email'=>'donny@example.com']);
 
 ## Adding data to messages
 
-After placeholders have been replaced (if any), any remaining data will be converted to a json string.
+After placeholders any have been replaced, any remaining data will be converted to a JSON string.
 
 ```php
 Log::info('User registered',['username'=>'pinkpotato']);
 
 ```
+
 Which will output like this
+
 ```
 [2019-03-10 13:37:49] application INFO: User registered {"username":"pinkpotato"}
 ```
@@ -93,7 +95,7 @@ Log::debug('debug-level message');
 
 ## Configuration
 
-You can use multiple engines at once, and you can customize which levels to Log on. 
+You can use a single engine or multiple engines at once, and you can also customize which levels to Log on.
 
 ### File Engine
 
@@ -153,8 +155,8 @@ Options for the Email Engine are:
 ### Console Engine
 
 ![console](console-log.png)
-To configure the Console Engine
 
+To configure the Console Engine
 
 ```php
 use Origin\Log\Log;
@@ -268,7 +270,7 @@ Then in your bootstrap configuration
 
 ```php
 use Origin\Log\Log;
-Log::config('some-name',[
+Log::config('default',[
     'className' => 'App\Log\Engine\DabaseEngine'
 ]);
 ```
