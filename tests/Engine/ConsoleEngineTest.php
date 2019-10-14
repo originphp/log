@@ -58,7 +58,6 @@ class ConsoleEngineTest extends \PHPUnit\Framework\TestCase
 
     public function demo()
     {
-        system('cls');
         $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
         $engine = new ConsoleEngine();
         $engine->log('debug', $lorem);
