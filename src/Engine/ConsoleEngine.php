@@ -18,6 +18,17 @@ namespace Origin\Log\Engine;
 
 class ConsoleEngine extends BaseEngine
 {
+    protected $colors = [
+        'debug' => '97',
+        'info' => '92',
+        'notice' => '36',
+        'warning' => '93',
+        'error' => '91',
+        'critical' => '1;91',
+        'alert' => '101;97',
+        'emergency' => '5;101;97',
+    ];
+
     /**
      * Holds the resource
      *
@@ -36,9 +47,12 @@ class ConsoleEngine extends BaseEngine
         'channels' => [],
     ];
 
+    protected $supportsAnsi = false;
+
     public function initialize(array $config): void
     {
         $this->stream = fopen($this->config('stream'), 'w');
+        $this->supportsAnsi = function_exists('posix_isatty') and posix_isatty($this->stream);
     }
 
     /**
@@ -52,8 +66,18 @@ class ConsoleEngine extends BaseEngine
     public function log(string $level, string $message, array $context = []): void
     {
         $message = $this->format($level, $message, $context);
-        $this->write($message);
+        if ($this->supportsAnsi) {
+            $message = $this->colorize($level, $message);
+        }
+        $this->write($message . "\n");
     }
+
+    protected function colorize(string $level, string $message)
+    {
+        $code = $this->colors[$level];
+        return "\033[{$code}m{$message}\033[0m";
+    }
+
     /**
      * Wrapper for testing
      *

@@ -46,8 +46,28 @@ class ConsoleEngineTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString("[{$date}] application ERROR: Error code {$id}", $engine->getOutput());
     }
 
-    public function testNoErrorsWhenWriting()
+    public function testColorFormat()
     {
-        $this->assertNull((new ConsoleEngine())->log('debug', 'Checking no errors when trying to write'));
+        $engine = new MockConsoleEngine();
+   
+        $engine->log('error', 'An error has occured.');
+        $message = '[' . date('Y-m-d G:i:s'). '] application ERROR: An error has occured.';
+        $this->assertStringContainsString("\033[91m{$message}\033[0m", $engine->getOutput());
+        $this->demo();
+    }
+
+    public function demo()
+    {
+        $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        $engine = new ConsoleEngine();
+        $engine->log('debug', $lorem);
+        $engine->log('info', $lorem);
+        $engine->log('notice', $lorem);
+        $engine->log('warning', $lorem);
+        $engine->log('error', $lorem);
+        $engine->log('critical', $lorem);
+        $engine->log('alert', $lorem);
+        $engine->log('emergency', $lorem);
+        $this->assertTrue(true);
     }
 }
