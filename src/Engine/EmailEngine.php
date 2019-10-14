@@ -33,12 +33,34 @@ class EmailEngine extends BaseEngine
      * @var array
      */
     protected $defaultConfig = [
-        'to' => null, // email address string/or array [email,name]
+        'to' => null, // email address string/or array [email => name]
         'from' => null, // email address
-        'account' => 'default', // The email configuration to use
         'levels' => [],
         'channels' => [],
+        // email settings
+        'host' => 'localhost',
+        'port' => 25,
+        'username' => null,
+        'password' => null,
+        'tls' => false,
+        'ssl' => false,
+        'timeout' => 30,
+        'debug' => false
     ];
+
+    /**
+     * To address [email,name]
+     *
+     * @var array
+     */
+    protected $to = null;
+
+    /**
+     * To address [email, name]
+     *
+     * @var array
+     */
+    protected $from = null;
 
     /**
      * To reduce the risk of issues with this, lets do some simple sanity checks
@@ -49,31 +71,53 @@ class EmailEngine extends BaseEngine
      */
     public function initialize(array $config) : void
     {
-        if (! $this->validateEmail($this->config('to'))) {
+        $this->to = $this->convertEmailSetting($this->config('to'));
+        if (! $this->validateEmail($this->to)) {
             throw new InvalidArgumentException('Invalid Email Address for To.');
         }
-        if (! $this->validateEmail($this->config('from'))) {
+        $this->from = $this->convertEmailSetting($this->config('from'));
+        if (! $this->validateEmail($this->from)) {
             throw new InvalidArgumentException('Invalid Email Address for From.');
         }
-        $config = Email::config($this->config('account'));
-        if (! $config) {
-            throw new InvalidArgumentException(sprintf('Invalid email account `%s`', $this->config('account')));
+    }
+
+    /**
+     * Convert an email to/from to special format
+     *
+     * 'hello@example.com' or ['hello@example.com'] or ['hello@example.com'=>$name] to [$email,$name]
+     *
+     * @param string|array|null $setting
+     * @return array|null
+     */
+    protected function convertEmailSetting($setting) : ?array
+    {
+        if ($setting === null) {
+            return null;
         }
+        if (is_string($setting)) {
+            $setting = [$setting,null];
+        }
+        $email = key($setting);
+        $name = $setting[$email];
+
+        if (is_int($email)) {
+            $email = $name;
+            $name = null;
+        }
+        
+        return [$email,$name];
     }
 
     /**
      * A basic email validation to ensure params are set
      *
-     * @param string|array $email
+     * @param array|null
      * @return bool
      */
-    protected function validateEmail($email = null) : bool
+    protected function validateEmail(array $email = null) : bool
     {
-        if ($email === null) {
+        if ($email === null or empty($email[0])) {
             return false;
-        }
-        if (is_string($email)) {
-            $email = [$email];
         }
 
         return (bool) filter_var($email[0], FILTER_VALIDATE_EMAIL);
@@ -103,15 +147,18 @@ class EmailEngine extends BaseEngine
      */
     protected function send(string $subject, string $message) : bool
     {
-        $to = $this->convertToOrFrom($this->config('to'));
-        $from = $this->convertToOrFrom($this->config('from'));
+
         /**
          * Prevent recursion
          */
         try {
-            $email = new Email($this->config('account'));
-            $email->to($to[0], $to[1])
-                ->from($from[0], $from[1])
+            $config = $this->config;
+            if (! empty($config['debug'])) {
+                $config = ['engine' => 'Test'];
+            }
+            $email = new Email($config);
+            $email->to($this->to[0], $this->to[1])
+                ->from($this->from[0], $this->from[1])
                 ->subject($subject)
                 ->htmlMessage("<p>{$message}</p>")
                 ->textMessage($message)
@@ -123,16 +170,5 @@ class EmailEngine extends BaseEngine
         }
 
         return true;
-    }
-
-    protected function convertToOrFrom($setting)
-    {
-        if (is_string($setting)) {
-            $setting = [$setting,null];
-        } elseif (! isset($setting[1])) {
-            $setting[1] = null;
-        }
-
-        return $setting;
     }
 }
