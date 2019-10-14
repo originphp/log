@@ -45,4 +45,9 @@ class ConsoleEngineTest extends \PHPUnit\Framework\TestCase
         $date = date('Y-m-d G:i:s');
         $this->assertStringContainsString("[{$date}] application ERROR: Error code {$id}", $engine->getOutput());
     }
+
+    public function testNoErrorsWhenWriting()
+    {
+        $this->assertNull((new ConsoleEngine())->log('debug', 'Checking no errors when trying to write'));
+    }
 }
