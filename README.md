@@ -122,28 +122,43 @@ use Origin\Log\Log;
 Log::config('default',[
     'engine' => 'Email',
     'to' => 'you@example.com', // string email only
-    'from' => ['no-reply@example.com','Web Application'] // to add a name, use an array,
-    'account' => 'gmail'
+    'from' => ['no-reply@example.com' => 'Web Application'] // to add a name, use an array,
+    'host' => 'smtp.example.com',
+    'port' => 465,
+    'username' => 'demo@example.com',
+    'password' => 'secret',
+    'timeout' => 5,
+    'ssl' => true,
+    'tls' => false
 ]);
 ```
 
 Options for the Email Engine are:
 
-- to: The to email address or an array with the email address and name which will be used. e.g. `you@example.com` or `['you@example.com','Tony Robbins']`.
-- from: The from email address or an array with the email address and name which will be used. e.g. `no-reply@example.com` or `['no-reply@example.com','System Notifications']`.
-- account: default:`default`. The name of the email account to use, as set in `Email::config()` see email account configured](/docs/utility/email) for more information.
-- levels: default `[]`. If you want to restrict this configuration to only certain levels, add the levels to an array e.g. `['critical','emergency','alert']`
-- channels: default `[]`. If you want to restrict this configuration to only certain channels, add the channels to an array e.g. `['invoices','payments']`
+- *levels*: default `[]`. If you want to restrict this configuration to only certain levels, add the levels to an array e.g. `['critical','emergency','alert']`
+- *channels*: default `[]`. If you want to restrict this configuration to only certain channels, add the channels to an array e.g. `['invoices','payments']`
+- *to*: The to email address or an array with the email address and name which will be used. e.g. `you@example.com` or `['you@example.com','Tony Robbins']`.
+- *from*: The from email address or an array with the email address and name which will be used. e.g. `no-reply@example.com` or `['no-reply@example.com','System Notifications']`.
+- *host*: this is SMTP server hostname
+- *port*: port number default 25
+- *username*: the username to access this SMTP server
+- *password*: the password to access this SMTP server
+- *ssl*: default is false, set to true if you want to connect via SSL
+- *tls*: default is false, set to true if you want to enable TLS
+- *timeout*: how many seconds to timeout
+
 
 > You should always test your email configuration first, if an exception occurs when trying to send the email, it is caught and is not logged to prevent recursion.
 
 ### Console Engine
 
+![console](console-log.png)
 To configure the Console Engine
+
 
 ```php
 use Origin\Log\Log;
-Log::config('email',[
+Log::config('default',[
     'engine' => 'Console'
 ]);
 ```
@@ -185,12 +200,16 @@ Log::config('default',[
 ]);
 
 // Send import log items by email
-Log::config('critial-emails',[
+Log::config('critical-emails',[
     'engine' => 'Email',
     'to' => 'you@example.com', 
-    'from' => ['no-reply@example.com','Web Application'],
-    'account' => 'gmail'
-    'levels' => ['critical','emergency','alert']
+    'from' => ['nobody@gmail.com' => 'Web Application'],
+    'levels' => ['critical','emergency','alert'],
+    'host' => 'smtp.gmail.com',
+    'port' => 465,
+    'username' => 'nobody@gmail.com',
+    'password' => 'secret',
+    'ssl' => true,
 ]);
 
 // Create a seperate log for everything from the payments channel
@@ -245,7 +264,7 @@ class DatabaseEngine extends BaseEngine
 }
 ```
 
-To use this Log engine, in your `config/log.php`
+Then in your bootstrap configuration
 
 ```php
 use Origin\Log\Log;
