@@ -7,4 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2019-10-14
 
+### Changed
+- change how email configuration works, settings are passed in log configuration
+
 This component has been decoupled from the [OriginPHP framework](https://www.originphp.com/).
