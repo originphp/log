@@ -37,7 +37,7 @@ class FileEngine extends BaseEngine
             throw new BadMethodCallException('File not provided');
         }
 
-        if (!is_file($config['file']) and !$this->createLogFile($config['file'])) {
+        if (! is_file($config['file']) and ! $this->createLogFile($config['file'])) {
             throw new InvalidArgumentException('Unable to create log file');
         }
     }

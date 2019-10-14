@@ -30,7 +30,7 @@ class LogTraitTest extends \PHPUnit\Framework\TestCase
     public function testTrait()
     {
         $file = sys_get_temp_dir() . '/' . uniqid() . '.log';
-        Log::config('default', ['engine' => 'File','file'=> $file]);
+        Log::config('default', ['engine' => 'File','file' => $file]);
         $controller = new Controller();
         $id = uniqid();
         $controller->log('debug', 'XXX {id} ', ['id' => $id]);

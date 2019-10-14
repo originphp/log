@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace Origin\Log;
 
+use InvalidArgumentException;
 use Origin\Log\Engine\BaseEngine;
 use Origin\Configurable\StaticConfigurable as Configurable;
-use InvalidArgumentException;
 
 class Log
 {
@@ -182,17 +182,17 @@ class Log
             static::loadEngines();
         }
 
-        if (!in_array($level, static::$levels)) {
+        if (! in_array($level, static::$levels)) {
             throw new InvalidArgumentException(sprintf('Invalid log level `%s`.', $level));
         }
 
         foreach (static::$loaded as $logger) {
             $levels = $logger->levels();
-            if (!empty($levels) and !in_array($level, $levels)) {
+            if (! empty($levels) and ! in_array($level, $levels)) {
                 continue;
             }
             $channels = $logger->channels();
-            if (!empty($channels) and !in_array($channel, $channels)) {
+            if (! empty($channels) and ! in_array($channel, $channels)) {
                 continue;
             }
             $logger->channel($channel);
@@ -212,7 +212,7 @@ class Log
             if (isset($config['engine'])) {
                 $config['className'] = __NAMESPACE__  . "\Engine\\{$config['engine']}Engine";
             }
-            if (empty($config['className']) or !class_exists($config['className'])) {
+            if (empty($config['className']) or ! class_exists($config['className'])) {
                 throw new InvalidArgumentException("Log engine for {$name} could not be found");
             }
 

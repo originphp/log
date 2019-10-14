@@ -14,8 +14,8 @@
 namespace Origin\Test\Log;
 
 use Origin\Log\Log;
-use Origin\Log\Engine\BaseEngine;
 use InvalidArgumentException;
+use Origin\Log\Engine\BaseEngine;
 
 class NullEngine extends BaseEngine
 {

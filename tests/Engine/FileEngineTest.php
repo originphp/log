@@ -24,7 +24,7 @@ class FileEngineTest extends \PHPUnit\Framework\TestCase
     {
         $file = sys_get_temp_dir() . '/application.log';
 
-        $engine = new FileEngine(['file'=>$file]);
+        $engine = new FileEngine(['file' => $file]);
         $id = uniqid();
         $this->assertNull($engine->log('error', 'Error code {value}', ['value' => $id]));
         $log = file_get_contents($file);
@@ -41,6 +41,6 @@ class FileEngineTest extends \PHPUnit\Framework\TestCase
     public function testInvalidFile()
     {
         $this->expectException(InvalidArgumentException::class);
-        new FileEngine(['file'=>'/somewhere/that/does/not/exists']);
+        new FileEngine(['file' => '/somewhere/that/does/not/exists']);
     }
 }

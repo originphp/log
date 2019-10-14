@@ -19,11 +19,9 @@ namespace Origin\Log\Engine;
 class ConsoleEngine extends BaseEngine
 {
     /**
-     * ANSI color codes.
+     * ANSI color mapping
      *
-     * @internal in TravisCI 9x/1xx colors are not showing it does work on
-     * linux and mac.
-     *
+     * @internal Some systems do not support 9x/1xx colors, including TravisCI.
      * @var array
      */
     protected $colors = [
@@ -83,6 +81,7 @@ class ConsoleEngine extends BaseEngine
     protected function colorize(string $level, string $message)
     {
         $code = $this->colors[$level];
+
         return "\033[{$code}m{$message}\033[0m";
     }
 
