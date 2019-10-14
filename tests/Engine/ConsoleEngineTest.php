@@ -52,7 +52,7 @@ class ConsoleEngineTest extends \PHPUnit\Framework\TestCase
    
         $engine->log('error', 'An error has occured.');
         $message = '[' . date('Y-m-d G:i:s'). '] application ERROR: An error has occured.';
-        $this->assertStringContainsString("\033[91m{$message}\033[0m", $engine->getOutput());
+        $this->assertStringContainsString("\033[31m{$message}\033[0m", $engine->getOutput());
         $this->demo();
     }
 

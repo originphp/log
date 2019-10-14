@@ -18,15 +18,23 @@ namespace Origin\Log\Engine;
 
 class ConsoleEngine extends BaseEngine
 {
+    /**
+     * ANSI color codes.
+     *
+     * @internal in TravisCI 9x/1xx colors are not showing it does work on
+     * linux and mac.
+     *
+     * @var array
+     */
     protected $colors = [
-        'debug' => '97',
-        'info' => '92',
+        'debug' => '37',
+        'info' => '32',
         'notice' => '36',
-        'warning' => '93',
-        'error' => '91',
-        'critical' => '1;91',
-        'alert' => '101;97',
-        'emergency' => '5;101;97',
+        'warning' => '33',
+        'error' => '31',
+        'critical' => '1;31',
+        'alert' => '41;37',
+        'emergency' => '5;41;37',
     ];
 
     /**
