@@ -93,19 +93,17 @@ Log::debug('debug-level message');
 
 ## Configuration
 
-The default Log Engine is file, you can use multiple engines at once, and you can customize which levels to Log on.
-
-Edit your Log configuration in `config/log.php`.
+You can use multiple engines at once, and you can customize which levels to Log on. 
 
 ### File Engine
 
-The default log file is called `application.log`.
+To configure the file engine logging
 
 ```php
 use Origin\Log\Log;
-Log::config('default',[
+Log::config('file',[
     'engine' => 'File',
-    'file' => LOGS . '/somethingelse.log'
+    'file' => '/var/www/logs/application.log'
 ]);
 ```
 
@@ -117,11 +115,11 @@ Options for the File Engine are:
 
 ### Email Engine
 
-To also log email, set the configuration, if you only want to use email, then change the name to `default`.
+To configure email logging
 
 ```php
 use Origin\Log\Log;
-Log::config('email',[
+Log::config('default',[
     'engine' => 'Email',
     'to' => 'you@example.com', // string email only
     'from' => ['no-reply@example.com','Web Application'] // to add a name, use an array,
@@ -162,7 +160,7 @@ You should use the Syslog engine on your production server. To configure the Sys
 
 ```php
 use Origin\Log\Log;
-Log::config('email',[
+Log::config('default',[
     'engine' => 'Syslog'
 ]);
 ```
