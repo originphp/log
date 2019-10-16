@@ -207,6 +207,7 @@ class Log
      */
     protected static function loadEngines(): void
     {
+        static::$loaded = [];
         $engines = static::config();
         foreach ($engines as $name => $config) {
             if (isset($config['engine'])) {
