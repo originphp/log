@@ -54,7 +54,7 @@ class FileEngine extends BaseEngine
         $message = $this->format($level, $message, $context) . "\n";
         $file = $this->config('path') . DIRECTORY_SEPARATOR . $this->config('file');
 
-        file_put_contents($file, $message, FILE_APPEND | LOCK_EX);
+        file_put_contents($file, $message, FILE_APPEND);
     }
 
     /**
