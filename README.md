@@ -140,7 +140,7 @@ Options for the Email Engine are:
 - *levels*: default `[]`. If you want to restrict this configuration to only certain levels, add the levels to an array e.g. `['critical','emergency','alert']`
 - *channels*: default `[]`. If you want to restrict this configuration to only certain channels, add the channels to an array e.g. `['invoices','payments']`
 - *to*: The to email address or an array with the email address and name which will be used. e.g. `you@example.com` or `['you@example.com','Tony Robbins']`.
-- *from*: The from email address or an array with the email address and name which will be used. e.g. `no-reply@example.com` or `['no-reply@example.com','System Notifications']`.
+- *from*: The from email address or an array with the email address and name which will be used. e.g. `no-reply@example.com` or `['no-reply@example.com'=>'System Notifications']`.
 - *host*: this is SMTP server hostname
 - *port*: port number default 25
 - *username*: the username to access this SMTP server
