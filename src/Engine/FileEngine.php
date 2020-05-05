@@ -52,9 +52,7 @@ class FileEngine extends BaseEngine
     public function log(string $level, string $message, array $context = []) : void
     {
         $message = $this->format($level, $message, $context) . "\n";
-        $file = $this->config('path') . DIRECTORY_SEPARATOR . $this->config('file');
-
-        file_put_contents($file, $message, FILE_APPEND);
+        file_put_contents($this->config('file'), $message, FILE_APPEND);
     }
 
     /**
