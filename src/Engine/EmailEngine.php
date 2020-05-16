@@ -115,7 +115,7 @@ class EmailEngine extends BaseEngine
      */
     protected function validateEmail(array $email = null) : bool
     {
-        if ($email === null or empty($email[0])) {
+        if ($email === null || empty($email[0])) {
             return false;
         }
 

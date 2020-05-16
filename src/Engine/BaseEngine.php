@@ -70,7 +70,7 @@ abstract class BaseEngine
     public function levels(): array
     {
         $levels = $this->config('levels');
-        if (is_array($levels) and ! empty($levels)) {
+        if (is_array($levels) && ! empty($levels)) {
             return $levels;
         }
 
@@ -85,7 +85,7 @@ abstract class BaseEngine
     public function channels(): array
     {
         $channels = $this->config('channels');
-        if (is_array($channels) and ! empty($channels)) {
+        if (is_array($channels) && ! empty($channels)) {
             return $channels;
         }
 
@@ -222,7 +222,7 @@ abstract class BaseEngine
     {
         $replace = [];
         foreach ($context as $key => $value) {
-            if (! is_array($value) and (! is_object($value) or method_exists($value, '__toString'))) {
+            if (! is_array($value) && (! is_object($value) || method_exists($value, '__toString'))) {
                 $replace['{' . $key . '}'] = $value;
             }
         }

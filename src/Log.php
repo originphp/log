@@ -186,11 +186,11 @@ class Log
 
         foreach (static::$loaded as $logger) {
             $levels = $logger->levels();
-            if (! empty($levels) and ! in_array($level, $levels)) {
+            if (! empty($levels) && ! in_array($level, $levels)) {
                 continue;
             }
             $channels = $logger->channels();
-            if (! empty($channels) and ! in_array($channel, $channels)) {
+            if (! empty($channels) && ! in_array($channel, $channels)) {
                 continue;
             }
             $logger->channel($channel);
@@ -211,7 +211,7 @@ class Log
             if (isset($config['engine'])) {
                 $config['className'] = __NAMESPACE__  . "\Engine\\{$config['engine']}Engine";
             }
-            if (empty($config['className']) or ! class_exists($config['className'])) {
+            if (empty($config['className']) || ! class_exists($config['className'])) {
                 throw new InvalidArgumentException("Log engine for {$name} could not be found");
             }
 
