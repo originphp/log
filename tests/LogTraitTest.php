@@ -13,8 +13,8 @@
  */
 namespace Origin\Test\Log;
 
-use Origin\Log\LogTrait;
 use Origin\Log\Log;
+use Origin\Log\LogTrait;
 
 class Controller
 {

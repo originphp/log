@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Origin\Log;
 
 use Psr\Log\LoggerInterface;
-use Origin\Log\Engine\BaseEngine;
 use InvalidArgumentException;
+use Origin\Log\Engine\BaseEngine;
 use Origin\Configurable\InstanceConfigurable as Configurable;
 
 /**
@@ -53,7 +53,7 @@ class Logger implements LoggerInterface
      * @param mixed $value
      * @return void
      */
-    protected function setConfig($key, $value = null) : void
+    protected function setConfig($key, $value = null): void
     {
         $this->traitSetConfig($key, $value);
         $this->loaded = null;

@@ -13,8 +13,8 @@
  */
 namespace Origin\Test\Log;
 
-use InvalidArgumentException;
 use Origin\Log\Log;
+use InvalidArgumentException;
 use Origin\Log\Engine\BaseEngine;
 use Psr\Log\InvalidArgumentException as LogInvalidArgumentException;
 

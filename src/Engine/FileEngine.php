@@ -51,7 +51,7 @@ class FileEngine extends BaseEngine
         }
 
         $size = $this->config('size'); // #! important
-        $this->maxSize = is_string($size) && !ctype_digit($size) ? $this->convertToBytes($size) : (int) $size;
+        $this->maxSize = is_string($size) && ! ctype_digit($size) ? $this->convertToBytes($size) : (int) $size;
     }
     
     /**

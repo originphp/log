@@ -153,9 +153,6 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-
-
-
     public function testCastToString()
     {
         $logger = new Logger(['className' => LoggerTestEngine::class]);
@@ -184,7 +181,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase
         $logger = new Logger([
             'className' => LoggerTestEngine::class,
             'levels' => ['critical']
-            ]);
+        ]);
    
         $logger->debug('This will not be logged');
         $this->assertEmpty($logger->engine('default')->getLog());

@@ -47,7 +47,7 @@ class FileEngineTest extends \PHPUnit\Framework\TestCase
 
         $file = $path . '/application.log';
 
-        $engine = new FileEngine(['file' => $file,'size'=>1, 'rotate'=>0 ]);
+        $engine = new FileEngine(['file' => $file,'size' => 1, 'rotate' => 0]);
 
         $engine->log('debug', 'line 1');
         $this->assertStringContainsString('line 1', file_get_contents($file));
@@ -75,7 +75,7 @@ class FileEngineTest extends \PHPUnit\Framework\TestCase
 
         $file = $path . '/application.log';
 
-        $engine = new FileEngine(['file' => $file,'size'=>1, 'rotate'=>3]);
+        $engine = new FileEngine(['file' => $file,'size' => 1, 'rotate' => 3]);
 
         $engine->log('debug', 'line 1');
         $this->assertStringContainsString('line 1', file_get_contents($file));
