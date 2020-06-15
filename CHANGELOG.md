@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added PSR-3 Logger class
+- Added log rotation to FileEngine
 
 ## [1.1.1] - 2020-05-05
 ### Fixed

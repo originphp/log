@@ -105,7 +105,10 @@ To configure the file engine logging
 use Origin\Log\Log;
 Log::config('file',[
     'engine' => 'File',
-    'file' => '/var/www/logs/application.log'
+    'file' => '/var/www/logs/application.log',
+    'size' => 10485760, // or 10MB,
+    'rotate' => 3
+    
 ]);
 ```
 
@@ -114,6 +117,8 @@ Options for the File Engine are:
 - file: file with full path
 - levels: default `[]`. If you want to restrict this configuration to only certain levels, add the levels to an array e.g. `['critical','emergency','alert']`
 - channels: default `[]`. If you want to restrict this configuration to only certain channels, add the channels to an array e.g. `['invoices','payments']`
+- size: number of bytes when to rotate log, or you can use MB or GB, e.g. 10MB
+- rotate: the number of times to rotate, if set to 0, then it will delete once it reaches that size.
 
 ### Email Engine
 
