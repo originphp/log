@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -14,13 +14,13 @@
 declare(strict_types=1);
 namespace Origin\Log;
 
-use InvalidArgumentException;
 use Origin\Log\Engine\BaseEngine;
 use Origin\Configurable\StaticConfigurable as Configurable;
 
 class Log
 {
     use Configurable;
+
     /**
      * Default Configuration
      *
@@ -29,20 +29,11 @@ class Log
     protected static $defaultConfig = [];
 
     /**
-     * Holds the default levels
+     * Holds the Logger Object
      *
-     * @var array
+     * @var \Origin\Log\Logger
      */
-    protected static $levels = [
-        'emergency', 'alert', 'critical', 'error',  'warning', 'notice', 'info', 'debug',
-    ];
-
-    /**
-     * Holds the loaded loggers
-     *
-     * @var array|null
-     */
-    protected static $loaded = null;
+    protected static $logger = null;
 
     /**
      * System is unusable.
@@ -172,51 +163,7 @@ class Log
      */
     public static function write(string $level, string $message, array $context = []): void
     {
-        $context += ['channel' => 'application'];
-        $channel = $context['channel'];
-        unset($context['channel']);
-
-        if (static::$loaded === null) {
-            static::loadEngines();
-        }
-
-        if (! in_array($level, static::$levels)) {
-            throw new InvalidArgumentException(sprintf('Invalid log level `%s`.', $level));
-        }
-
-        foreach (static::$loaded as $logger) {
-            $levels = $logger->levels();
-            if (! empty($levels) && ! in_array($level, $levels)) {
-                continue;
-            }
-            $channels = $logger->channels();
-            if (! empty($channels) && ! in_array($channel, $channels)) {
-                continue;
-            }
-            $logger->channel($channel);
-            $logger->$level($message, $context);
-        }
-    }
-
-    /**
-     * Loads the engines for logging
-     *
-     * @return void
-     */
-    protected static function loadEngines(): void
-    {
-        static::$loaded = [];
-        $engines = static::config();
-        foreach ($engines as $name => $config) {
-            if (isset($config['engine'])) {
-                $config['className'] = __NAMESPACE__  . "\Engine\\{$config['engine']}Engine";
-            }
-            if (empty($config['className']) || ! class_exists($config['className'])) {
-                throw new InvalidArgumentException("Log engine for {$name} could not be found");
-            }
-
-            static::$loaded[$name] = new $config['className']($config);
-        }
+        static::logger()->log($level, $message, $context);
     }
 
     /**
@@ -228,26 +175,35 @@ class Log
      */
     public static function engine(string $name): BaseEngine
     {
-        if (static::$loaded === null) {
-            static::loadEngines();
-        }
-        if (isset(static::$loaded[$name])) {
-            return static::$loaded[$name];
-        }
-        throw new InvalidArgumentException(sprintf('The log configuration `%s` does not exist.', $name));
+        return static::logger()->engine($name);
     }
 
     /**
-     * Resets all the loggers and configuration. This is really handy for testing and it will clear :
-     *
-     *  - All config
-     *  - All loaded items
-     *
-     * @return void
-     */
+    * Resets all the loggers and configuration. This is really handy for testing and it will clear :
+    *
+    *  - All config
+    *  - All loaded items
+    *
+    * @return void
+    */
     public static function reset(): void
     {
-        static::$loaded = null;
+        static::$logger = null;
         static::$config = [];
+    }
+
+    /**
+     * Gets the logger object
+     *
+     * @return \Origin\Log\Logger
+     */
+    private static function logger(): Logger
+    {
+        if (static::$logger === null) {
+            static::$logger = new Logger();
+            static::$logger->config(Log::config()); # work
+        }
+
+        return static::$logger;
     }
 }

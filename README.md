@@ -4,7 +4,7 @@
 [![build](https://travis-ci.org/originphp/log.svg?branch=master)](https://travis-ci.org/originphp/log)
 [![coverage](https://coveralls.io/repos/github/originphp/log/badge.svg?branch=master)](https://coveralls.io/github/originphp/log?branch=master)
 
-There are 4 built in Log Engines, and it is easy to implement your own.
+There are 4 built in Log Engines, and it is easy to implement your own. You can use the `Log` static class or PSR-3 `Logger` class.
 
 ## Installation
 
@@ -222,9 +222,10 @@ Log::config('payments',[
 ]);
 ```
 
-### Creating a Custom Logger
 
-To create a custom Log Engine, create the folder structure `app/Log/Engine`, all you need is one function that is the log function
+### Creating a Custom Log Engine
+
+To create a custom Log Engine, create the folder structure `app/Log/Engine`, and create an engine class with the method `log`.
 
 ```php
 namespace App\Log\Engine;
@@ -272,5 +273,49 @@ Then in your bootstrap configuration
 use Origin\Log\Log;
 Log::config('default',[
     'className' => 'App\Log\Engine\DabaseEngine'
+]);
+```
+
+### PSR-3 Logger
+
+The Log library uses a PSR-3 Logger that you may want to use instead of the static `Log` class.
+
+When you create the `Logger` instance you can pass a single engine configuration, which is common when just starting on a new app.
+
+```php
+use Origin\Log\Logger;
+$logger = new Logger([
+    'engine' => 'File',
+    'file' => '/var/www/logs/master.log'
+]);
+```
+
+To change the settings for an engine, or add additional engines or configurations of engines
+
+```php
+
+$logger->config('default',[
+    'engine' => 'File',
+    'file' => '/var/www/logs/application.log'
+]);
+
+// Send import log items by email
+$logger->config('critical-emails',[
+    'engine' => 'Email',
+    'to' => 'you@example.com', 
+    'from' => ['nobody@gmail.com' => 'Web Application'],
+    'levels' => ['critical','emergency','alert'],
+    'host' => 'smtp.gmail.com',
+    'port' => 465,
+    'username' => 'nobody@gmail.com',
+    'password' => 'secret',
+    'ssl' => true
+]);
+
+// Create a seperate log for everything from the payments channel
+$logger->config('payments',[
+    'engine' => 'File',
+    'file' => '/var/www/logs/payments.log',
+    'channels' => ['payments']
 ]);
 ```

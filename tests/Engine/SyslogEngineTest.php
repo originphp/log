@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -24,17 +24,17 @@ class MockSyslogEngine extends SyslogEngine
      * @var string
      */
     protected $written = '';
-    protected function openlog(string $identity, int $option = null, int $facility = null) :bool
+    protected function openlog(string $identity, int $option = null, int $facility = null): bool
     {
         return true;
     }
-    protected function write(int $priority, string $message) :bool
+    protected function write(int $priority, string $message): bool
     {
         $this->written = $priority . ':' . $message;
 
         return true;
     }
-    public function written() : string
+    public function written(): string
     {
         return $this->written;
     }

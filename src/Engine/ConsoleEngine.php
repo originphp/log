@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -53,7 +53,7 @@ class ConsoleEngine extends BaseEngine
 
     protected $supportsAnsi = false;
 
-    public function initialize(array $config): void
+    protected function initialize(array $config): void
     {
         $this->stream = fopen($this->config('stream'), 'w');
         $this->supportsAnsi = function_exists('posix_isatty') and posix_isatty($this->stream);
@@ -89,7 +89,7 @@ class ConsoleEngine extends BaseEngine
      * @param string $message
      * @return void
      */
-    protected function write(string $message) : void
+    protected function write(string $message): void
     {
         fwrite($this->stream, $message);
     }

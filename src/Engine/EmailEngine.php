@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -68,7 +68,7 @@ class EmailEngine extends BaseEngine
      * @param array $config
      * @return void
      */
-    public function initialize(array $config) : void
+    protected function initialize(array $config): void
     {
         $this->to = $this->convertEmailSetting($this->config('to'));
         if (! $this->validateEmail($this->to)) {
@@ -88,7 +88,7 @@ class EmailEngine extends BaseEngine
      * @param string|array|null $setting
      * @return array|null
      */
-    protected function convertEmailSetting($setting) : ?array
+    protected function convertEmailSetting($setting): ?array
     {
         if ($setting === null) {
             return null;
@@ -113,7 +113,7 @@ class EmailEngine extends BaseEngine
      * @param array|null
      * @return bool
      */
-    protected function validateEmail(array $email = null) : bool
+    protected function validateEmail(array $email = null): bool
     {
         if ($email === null || empty($email[0])) {
             return false;
@@ -129,7 +129,7 @@ class EmailEngine extends BaseEngine
       * @param array $context  ['what'='string']
       * @return void
       */
-    public function log(string $level, string $message, array $context = []) : void
+    public function log(string $level, string $message, array $context = []): void
     {
         $message = $this->format($level, $message, $context) . "\n";
         $subject = 'Log: ' . strtoupper($level);
@@ -144,7 +144,7 @@ class EmailEngine extends BaseEngine
      * @param string $message
      * @return boolean
      */
-    protected function send(string $subject, string $message) : bool
+    protected function send(string $subject, string $message): bool
     {
 
         /**

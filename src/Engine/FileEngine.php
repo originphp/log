@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -22,15 +22,25 @@ class FileEngine extends BaseEngine
     /**
      * Default configuration
      *
+     * Log Rotation settings should be similar/same as logrotate
+     * @see https://linux.die.net/man/8/logrotate
+     *
      * @var array
      */
     protected $defaultConfig = [
         'file' => null,
         'levels' => [],
         'channels' => [],
+        'size' => 10485760,
+        'rotate' => 3
     ];
+
+    /**
+     * @var int
+     */
+    protected $maxSize;
     
-    public function initialize(array $config) : void
+    protected function initialize(array $config): void
     {
         if (empty($config['file'])) {
             throw new BadMethodCallException('File not provided');
@@ -39,6 +49,9 @@ class FileEngine extends BaseEngine
         if (! is_file($config['file']) && ! $this->createLogFile($config['file'])) {
             throw new InvalidArgumentException('Unable to create log file');
         }
+
+        $size = $this->config('size'); // #! important
+        $this->maxSize = is_string($size) && !ctype_digit($size) ? $this->convertToBytes($size) : (int) $size;
     }
     
     /**
@@ -49,18 +62,81 @@ class FileEngine extends BaseEngine
       * @param array $context  ['what'='string']
       * @return void
       */
-    public function log(string $level, string $message, array $context = []) : void
+    public function log(string $level, string $message, array $context = []): void
     {
         $message = $this->format($level, $message, $context) . "\n";
-        file_put_contents($this->config('file'), $message, FILE_APPEND);
+
+        $file = $this->config('file');
+        
+        clearstatcache(true, pathinfo($file, PATHINFO_DIRNAME));
+        
+        if (file_exists($file) && filesize($file) >= $this->maxSize) {
+            $this->rotateLogfile($file, (int) $this->config('rotate'));
+        }
+
+        file_put_contents($file, $message, FILE_APPEND);
+    }
+
+    /**
+     * Handles the rotation of the log file
+     *
+     * @param string $file
+     * @param integer $rotate
+     * @return boolean
+     */
+    private function rotateLogfile(string $file, int $rotate): bool
+    {
+        if ($rotate === 0) {
+            return unlink($file);
+        }
+        
+        $pattern = $file . '.*';
+
+        $files = glob($pattern); // rotate
+        $count = count($files);
+
+        for ($i = $count; $i > 0 ; $i --) {
+            $logFile = str_replace('*', $i, $pattern);
+
+            if ($i >= $rotate) {
+                if (file_exists($logFile)) {
+                    unlink($logFile);
+                }
+                continue;
+            }
+            //  rename application.log.1 -> application.log.2
+            rename($logFile, str_replace('*', $i + 1, $pattern));
+        }
+        // rename application.log -> application.log.1
+        return rename($file, str_replace('*', 1, $pattern));
     }
 
     /**
     * @param string $file
     * @return boolean
     */
-    private function createLogFile(string $file) : bool
+    private function createLogFile(string $file): bool
     {
         return is_dir(dirname($file)) and touch($file) and chmod($file, 0775);
+    }
+
+    /**
+     * Convert 1MB/1GB to bytes
+     *
+     * @param string $value
+     * @return integer
+     */
+    private function convertToBytes(string $value): int
+    {
+        preg_match('/(?P<value>[0-9]+)(?P<unit>MB|GB)/', $value, $matches);
+
+        if (! $matches) {
+            throw new InvalidArgumentException('Invalid value or unit type.');
+        }
+        $multipler = $matches['unit'] === 'MB' ? 1048576 : 1073741824;
+
+        $bytes = $matches['value'] * $multipler;
+
+        return $bytes;
     }
 }

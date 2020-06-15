@@ -8,7 +8,9 @@
         "console",
         "syslog",
         "email",
-        "file"
+        "file",
+        "psr-3",
+        "psr"
     ],
     "homepage": "https://www.originphp.com",
     "license": "MIT",
@@ -31,7 +33,8 @@
     "require": {
         "php": "^7.2.0",
         "originphp/configurable": "^1.0.0",
-        "originphp/email": "^1.1"
+        "originphp/email": "^1.1",
+        "psr/log": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"

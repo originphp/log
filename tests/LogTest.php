@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -13,15 +13,16 @@
  */
 namespace Origin\Test\Log;
 
-use Origin\Log\Log;
 use InvalidArgumentException;
+use Origin\Log\Log;
 use Origin\Log\Engine\BaseEngine;
+use Psr\Log\InvalidArgumentException as LogInvalidArgumentException;
 
 class NullEngine extends BaseEngine
 {
     protected $data = null;
 
-    public function log(string $level, string $message, array $context = []) : void
+    public function log(string $level, string $message, array $context = []): void
     {
         $this->data = $this->format($level, $message, $context) . "\n";
     }
@@ -34,8 +35,7 @@ class NullEngine extends BaseEngine
 
 class LogTest extends \PHPUnit\Framework\TestCase
 {
-    protected $engine = null;
-    protected function setUp() : void
+    protected function setUp(): void
     {
         Log::reset();
         Log::config('default', [
@@ -87,6 +87,7 @@ class LogTest extends \PHPUnit\Framework\TestCase
         Log::warning('Some system message with the value:{value}', ['value' => 'not-important']);
         $this->assertStringContainsString("[{$date}] application WARNING: Some system message with the value:not-important", Log::engine('default')->getLog());
     }
+
     public function testNotice()
     {
         $date = date('Y-m-d G:i:s');
@@ -162,7 +163,7 @@ class LogTest extends \PHPUnit\Framework\TestCase
     
     public function testInvalidLogLevel()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(LogInvalidArgumentException::class);
         Log::write('informational', 'This is an invalid log level');
     }
 

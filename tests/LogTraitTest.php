@@ -1,7 +1,7 @@
 <?php
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -13,8 +13,8 @@
  */
 namespace Origin\Test\Log;
 
-use Origin\Log\Log;
 use Origin\Log\LogTrait;
+use Origin\Log\Log;
 
 class Controller
 {
@@ -23,7 +23,7 @@ class Controller
 
 class LogTraitTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp() :void
+    public function setUp(): void
     {
         Log::reset();
     }

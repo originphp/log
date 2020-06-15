@@ -2,7 +2,7 @@
 
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -62,7 +62,7 @@ class SyslogEngine extends BaseEngine
       * @param array $context  ['what'='string']
       * @return void
       */
-    public function log(string $level, string $message, array $context = []) : void
+    public function log(string $level, string $message, array $context = []): void
     {
         if ($this->opened === false) {
             $this->openlog($this->config('identity'), $this->config('option'), $this->config('facility'));
@@ -85,7 +85,7 @@ class SyslogEngine extends BaseEngine
      * @param int $facility
      * @return bool
      */
-    protected function openlog(string $identity, int $option = null, int $facility = null) :bool
+    protected function openlog(string $identity, int $option = null, int $facility = null): bool
     {
         return $this->opened = openlog($identity, $option, $facility);
     }
@@ -97,7 +97,7 @@ class SyslogEngine extends BaseEngine
      * @param string $message
      * @return boolean
      */
-    protected function write(int $priority, string $message) :bool
+    protected function write(int $priority, string $message): bool
     {
         return syslog($priority, $message);
     }
