@@ -57,6 +57,22 @@ class FileEngineTest extends \PHPUnit\Framework\TestCase
         $this->assertStringContainsString('line 2', file_get_contents($file));
     }
 
+    public function testDisableLogRotation()
+    {
+        $path = sys_get_temp_dir() . '/' . uniqid();
+        mkdir($path);
+
+        $file = $path . '/application.log';
+
+        $engine = new FileEngine(['file' => $file,'size' => null, 'rotate' => 3]);
+
+        $engine->log('debug', 'line 1');
+        $engine->log('debug', 'line 2');
+
+        $this->assertStringContainsString('line 1', file_get_contents($file));
+        $this->assertStringContainsString('line 2', file_get_contents($file));
+    }
+
     public function testSizeToBytes()
     {
         $file = sys_get_temp_dir() . '/application.log';

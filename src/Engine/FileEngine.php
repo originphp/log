@@ -36,9 +36,14 @@ class FileEngine extends BaseEngine
     ];
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $maxSize;
+
+    /**
+     * @var boolean
+     */
+    private $rotate = false;
     
     protected function initialize(array $config): void
     {
@@ -51,7 +56,10 @@ class FileEngine extends BaseEngine
         }
 
         $size = $this->config('size'); // #! important
-        $this->maxSize = is_string($size) && ! ctype_digit($size) ? $this->convertToBytes($size) : (int) $size;
+        if (! empty($size)) {
+            $this->maxSize = is_string($size) && ! ctype_digit($size) ? $this->convertToBytes($size) : (int) $size;
+            $this->rotate = true;
+        }
     }
     
     /**
@@ -68,12 +76,14 @@ class FileEngine extends BaseEngine
 
         $file = $this->config('file');
         
-        clearstatcache(true, pathinfo($file, PATHINFO_DIRNAME));
+        if ($this->rotate) {
+            clearstatcache(true, pathinfo($file, PATHINFO_DIRNAME));
         
-        if (file_exists($file) && filesize($file) >= $this->maxSize) {
-            $this->rotateLogfile($file, (int) $this->config('rotate'));
+            if (file_exists($file) && filesize($file) >= $this->maxSize) {
+                $this->rotateLogfile($file, (int) $this->config('rotate'));
+            }
         }
-
+       
         file_put_contents($file, $message, FILE_APPEND);
     }
 

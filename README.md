@@ -117,7 +117,7 @@ Options for the File Engine are:
 - file: file with full path
 - levels: default `[]`. If you want to restrict this configuration to only certain levels, add the levels to an array e.g. `['critical','emergency','alert']`
 - channels: default `[]`. If you want to restrict this configuration to only certain channels, add the channels to an array e.g. `['invoices','payments']`
-- size: number of bytes when to rotate log, or you can use MB or GB, e.g. 10MB
+- size: number of bytes when to rotate log, or you can use MB or GB, e.g. 10MB. To disable log rotation set this to `0`.
 - rotate: the number of times to rotate, if set to 0, then it will delete once it reaches that size.
 
 ### Email Engine
