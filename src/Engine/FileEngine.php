@@ -127,7 +127,7 @@ class FileEngine extends BaseEngine
     */
     private function createLogFile(string $file): bool
     {
-        return is_dir(dirname($file)) and touch($file) and chmod($file, 0775);
+        return is_dir(dirname($file)) && touch($file) && chmod($file, 0664);
     }
 
     /**
