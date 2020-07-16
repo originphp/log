@@ -108,7 +108,6 @@ Log::config('file',[
     'file' => '/var/www/logs/application.log',
     'size' => 10485760, // or 10MB,
     'rotate' => 3
-    
 ]);
 ```
 
