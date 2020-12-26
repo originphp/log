@@ -33,7 +33,7 @@ class Logger implements LoggerInterface
     /**
      * Logging engines
      *
-     * @var array|null
+     * @var \Origin\Log\Engine\BaseEngine[]|null
      */
     private $loaded = null;
 
@@ -207,11 +207,12 @@ class Logger implements LoggerInterface
 
         foreach ($this->loaded as $logger) {
             $levels = $logger->levels();
+            $channels = $logger->channels();
 
             if (! empty($levels) && ! in_array($level, $levels)) {
                 continue;
             }
-            $channels = $logger->channels();
+           
             if (! empty($channels) && ! in_array($channel, $channels)) {
                 continue;
             }

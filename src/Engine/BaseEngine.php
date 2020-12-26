@@ -69,12 +69,8 @@ abstract class BaseEngine
      */
     public function levels(): array
     {
-        $levels = $this->config('levels');
-        if (is_array($levels) && ! empty($levels)) {
-            return $levels;
-        }
-
-        return [];
+        $data = $this->config('levels');
+        return $data ? (array) $data : [];
     }
 
     /**
@@ -84,14 +80,10 @@ abstract class BaseEngine
      */
     public function channels(): array
     {
-        $channels = $this->config('channels');
-        if (is_array($channels) && ! empty($channels)) {
-            return $channels;
-        }
-
-        return [];
+        $data = $this->config('channels');
+        return $data ? (array) $data : [];
     }
-
+  
     /**
      * System is unusable.
      *
