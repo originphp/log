@@ -7,6 +7,6 @@
 /.coveralls.yml export-ignore
 /phpunit.xml.dist export-ignore
 /phpcs.xml.dist export-ignore
-/LICENSE.md export-ignore
 /CHANGELOG.md export-ignore
 /README.md export-ignore
+/console-log.png export-ignore
