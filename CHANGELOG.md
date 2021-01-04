@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2021-01-04
 
+### Fixed
+
+- Fixed PHP 8.0 type error with str_replace
+
 ### Changed
 
 - Changed minimum PHP version to 7.3

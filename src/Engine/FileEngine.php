@@ -106,7 +106,7 @@ class FileEngine extends BaseEngine
         $count = count($files);
 
         for ($i = $count; $i > 0 ; $i --) {
-            $logFile = str_replace('*', $i, $pattern);
+            $logFile = str_replace('*', (string) $i, $pattern);
 
             if ($i >= $rotate) {
                 if (file_exists($logFile)) {
