@@ -5,18 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### [1.2.2] - 2020-07-16
+### [1.2.5] - 2021-01-04
+
+### Fixed
+
+- Fixed PHP 8 type errors
+
+## [1.2.2] - 2020-07-16
 
 ### Changed
 
 - Changed FileEngine log file default permissions to `0664`
 
-### [1.2.1] - 2020-05-16
+## [1.2.1] - 2020-05-16
 
 ### Added
 - Added option to disable log rotation
 
-### [1.2.0] - 2020-05-15
+## [1.2.0] - 2020-05-15
 
 ### Added
 - Added PSR-3 Logger class
