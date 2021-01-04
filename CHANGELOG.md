@@ -16,18 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed minimum PHP version to 7.3
 - Change minimum PHPUnit to 9.2
 
-### [1.2.2] - 2020-07-16
+## [1.2.2] - 2020-07-16
 
 ### Changed
 
 - Changed FileEngine log file default permissions to `0664`
 
-### [1.2.1] - 2020-05-16
+## [1.2.1] - 2020-05-16
 
 ### Added
 - Added option to disable log rotation
 
-### [1.2.0] - 2020-05-15
+## [1.2.0] - 2020-05-15
 
 ### Added
 - Added PSR-3 Logger class
