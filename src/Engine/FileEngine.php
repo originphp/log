@@ -115,7 +115,7 @@ class FileEngine extends BaseEngine
                 continue;
             }
             //  rename application.log.1 -> application.log.2
-            rename($logFile, str_replace('*', (string) $i + 1, $pattern));
+            rename($logFile, str_replace('*', (string) ($i + 1), $pattern));
         }
         // rename application.log -> application.log.1
         return rename($file, str_replace('*', '1', $pattern));
