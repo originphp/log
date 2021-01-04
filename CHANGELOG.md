@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed PHP 8.0 type error with str_replace
+- Fixed PHP 8.0 type errors with str_replace
 
 ### Changed
 
