@@ -1,7 +1,7 @@
 # Log
 
 ![license](https://img.shields.io/badge/license-MIT-brightGreen.svg)
-[![build](https://travis-ci.org/originphp/log.svg?branch=master)](https://travis-ci.org/originphp/log)
+[![build](https://github.com/originphp/log/workflows/CI/badge.svg)](https://github.com/originphp/log/actions)
 [![coverage](https://coveralls.io/repos/github/originphp/log/badge.svg?branch=master)](https://coveralls.io/github/originphp/log?branch=master)
 
 There are 4 built in Log Engines, and it is easy to implement your own. You can use the `Log` static class or PSR-3 `Logger` class.
